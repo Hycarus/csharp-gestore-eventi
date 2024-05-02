@@ -4,48 +4,12 @@ class Program
 {
     static void Main(string[] args)
     {
-        
-
-        //Console.Write("Inserisci il nome dell'evento: ");
-        //string? eventName = Console.ReadLine();
-        //Console.Write("\nInserisci la data dell'evento (gg/mm/yyyy): ");
-        //DateTime eventDate = Convert.ToDateTime(Console.ReadLine());
-        //Console.Write("\nInserisci il numero di posti totali: ");
-        //int eventMaxPlaces = Convert.ToInt32(Console.ReadLine());
-
-        //Event evento = new Event(eventName, eventDate, eventMaxPlaces);
-
-        //Console.WriteLine("Quanti posti desideri prenotare? ");
-        //int reservedPlace = Convert.ToInt32(Console.ReadLine());
-        //evento.PrenotaPosti(reservedPlace);
-
-        //string choice;
-        //do
-        //{
-        //    Console.WriteLine($"Numero di posti prenotati {evento.NumberReservedPlace}");
-        //    Console.WriteLine($"Numero di posti disponibili {evento.MaxSpace - evento.NumberReservedPlace}");
-
-        //    Console.Write("\nVuoi disdire dei posti (si/no)? ");
-        //    choice = Console.ReadLine();
-
-        //    if(choice == "si")
-        //    {
-        //        Console.Write("\nIndica il numero di posti da disdire: ");
-        //        int cancelPlace = Convert.ToInt32(Console.ReadLine());
-        //        evento.DisdiciPosti(cancelPlace);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Ok va bene!");
-        //    }
-        //} while (choice != "no");
-
-        Console.Write("Inserisci il nome del tuo programma eventi: ");
+        Console.WriteLine("Inserisci il nome del tuo programma eventi: ");
         string? programEventTitle = Console.ReadLine();
 
         ProgrammaEventi programmaEventi = new ProgrammaEventi(programEventTitle);
 
-        Console.Write("\nIndica il numero di eventi da inserire: ");
+        Console.WriteLine("Indica il numero di eventi da inserire: ");
         int numberOfEvents;
         while (!int.TryParse(Console.ReadLine(), out numberOfEvents) || numberOfEvents <= 0)
         {
@@ -56,25 +20,65 @@ class Program
         {
             try
             {
-                Console.Write($"Inserisci il nome dell'evento {i + 1}: ");
+                Console.WriteLine($"Inserisci il nome dell'evento {i + 1}: ");
                 string? name = Console.ReadLine();
-                Console.Write("\nInserisci la data dell'evento (gg/mm/yyyy): ");
+                Console.WriteLine("Inserisci la data dell'evento (gg/mm/yyyy): ");
                 DateTime date;
                 while(!DateTime.TryParse(Console.ReadLine(), out date))
                 {
                     Console.WriteLine("Data non valida. Inserisci di nuovo (formato: gg/mm/yyyy): ");
                 }
-                Console.Write("\nInserisci il numero di posti totali: ");
+                Console.WriteLine("Inserisci il numero di posti totali: ");
                 int places;
                 while (!int.TryParse(Console.ReadLine(), out places) || places <= 0)
                 {
                     Console.WriteLine("Capienza massima non valida. Inserisci di nuovo: ");
                 }
 
-                Event nuovoEvento = new Event(name, date, places);
+                Event newEvent = new Event(name, date, places);
 
-                programmaEventi.AddNewEvent(nuovoEvento);
+                programmaEventi.AddNewEvent(newEvent);
                 Console.WriteLine("Evento aggiunto con successo");
+
+                Console.WriteLine("Vuoi prenotare dei posti? (si/no): ");
+                string? choice = Console.ReadLine();
+                while (choice.ToLower() == "si")
+                {
+                    Console.WriteLine("Quanti posti vuoi prenotare?");
+                    int reservedPlaces;
+                    while (!int.TryParse(Console.ReadLine(), out reservedPlaces) || reservedPlaces <= 0)
+                    {
+                        Console.WriteLine("Inserisci un numero valido:");
+                    }
+
+                    newEvent.PrenotaPosti(reservedPlaces);
+
+                    Console.WriteLine($"Posti prenotati: {newEvent.NumberReservedPlace}");
+                    Console.WriteLine($"Posti disponibili: {newEvent.MaxSpace - newEvent.NumberReservedPlace}");
+
+                    Console.WriteLine("Vuoi continuare a prenotare posti? (si/no):");
+                    choice = Console.ReadLine();
+                }
+
+                Console.WriteLine("Vuoi disdire dei posti? (si/no):");
+                string? choice2 = Console.ReadLine();
+                while (choice2.ToLower() == "si")
+                {
+                    Console.WriteLine("Quanti posti vuoi disdire?");
+                    int postiDaDisdire;
+                    while (!int.TryParse(Console.ReadLine(), out postiDaDisdire) || postiDaDisdire <= 0)
+                    {
+                        Console.WriteLine("Inserisci un numero valido:");
+                    }
+
+                    newEvent.DisdiciPosti(postiDaDisdire);
+
+                    Console.WriteLine($"Posti prenotati: {newEvent.NumberReservedPlace}");
+                    Console.WriteLine($"Posti disponibili: {newEvent.MaxSpace - newEvent.NumberReservedPlace}");
+
+                    Console.WriteLine("Vuoi continuare a disdire posti? (si/no):");
+                    choice2 = Console.ReadLine();
+                }
             }
             catch(Exception e)
             {
@@ -83,9 +87,10 @@ class Program
             
         }
 
-        Console.Write($"Il numero degli eventi nel programma è: \n{programmaEventi.HowManyEvents()}");
+        Console.Write($"\nIl numero degli eventi nel programma è: \n{programmaEventi.HowManyEvents()}");
 
-        Console.WriteLine($"Ecco il tuo programma eventi: {programmaEventi.ShowProgramTitleAndEvents()}");
+        Console.WriteLine("\nEcco il tuo programma eventi: ");
+        ProgrammaEventi.ShowEventListByDate(programmaEventi.ShowEventsByDate(DateTime.MinValue));
 
         Console.Write("Inserisci una data per sapere che eventi ci saranno (gg/mm/yyyy): ");
         DateTime dateForSearch;
@@ -94,24 +99,11 @@ class Program
             Console.Write("\nData non valida. Inserisci di nuovo (formato: gg/mm/yyyy): ");
         }
         List<Event> eventsInDate = programmaEventi.ShowEventsByDate(dateForSearch);
-        ShowEventListByDate(eventsInDate);
+        Console.WriteLine("\nEventi in data: ");
+        ProgrammaEventi.ShowEventListByDate(eventsInDate);
 
         programmaEventi.DeleteAllEvents();
-    }
-
-    public static void ShowEventListByDate(List<Event> events)
-    {
-        if(events.Count() == 0)
-        {
-            Console.WriteLine("Nessun evento presente");
-        }
-        else
-        {
-            foreach(var evento in events)
-            {
-                Console.WriteLine(evento);
-            }
-        }
+        Console.WriteLine("\nTutti gli eventi sono stati eliminati");
     }
 }
 

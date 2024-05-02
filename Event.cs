@@ -30,7 +30,7 @@ namespace GestoreEventi
 			this.title = title;
 			this.date = date;
 			this.maxSpace = maxSpace;
-			this.numberReservedPlace = 0;
+			numberReservedPlace = 0;
 		}
 
         public string Title

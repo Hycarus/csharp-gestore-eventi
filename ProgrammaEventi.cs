@@ -37,7 +37,7 @@ namespace GestoreEventi
 			string path = "";
 			foreach(var evento in Events)
 			{
-				path += $"\n{evento.Date.ToString("gg/mm/yyyy")} - {evento.Title}";
+				path += $"\n{evento.Date.ToString("dd/MM/yyyy")} - {evento.Title}";
 			}
 			return path;
 		}
@@ -56,6 +56,21 @@ namespace GestoreEventi
 		{
 			return $"{Title}{ShowEventsList()}";
 		}
+
+        public static void ShowEventListByDate(List<Event> events)
+        {
+            if (events.Count() == 0)
+            {
+                Console.WriteLine("Nessun evento presente");
+            }
+            else
+            {
+                foreach (var evento in events)
+                {
+                    Console.WriteLine(evento);
+                }
+            }
+        }
     }
 
 	
