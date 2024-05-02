@@ -37,7 +37,7 @@ namespace GestoreEventi
 			string path = "";
 			foreach(var evento in Events)
 			{
-				path += $"\n{evento.Date} - {evento.Title}";
+				path += $"\n{evento.Date.ToString("gg/mm/yyyy")} - {evento.Title}";
 			}
 			return path;
 		}
