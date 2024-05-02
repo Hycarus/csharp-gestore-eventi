@@ -1,4 +1,7 @@
-﻿namespace GestoreEventi;
+﻿using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace GestoreEventi;
 
 class Program
 {
@@ -23,9 +26,11 @@ class Program
                 Console.WriteLine($"Inserisci il nome dell'evento {i + 1}: ");
                 string? name = Console.ReadLine();
                 Console.WriteLine("Inserisci la data dell'evento (gg/mm/yyyy): ");
+                //DateTime date = DateTime.Parse(Console.ReadLine());
                 DateTime date;
-                while(!DateTime.TryParse(Console.ReadLine(), out date))
+                while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", new CultureInfo("it-IT"), DateTimeStyles.None, out date))
                 {
+                    Console.WriteLine(date);
                     Console.WriteLine("Data non valida. Inserisci di nuovo (formato: gg/mm/yyyy): ");
                 }
                 Console.WriteLine("Inserisci il numero di posti totali: ");
@@ -94,7 +99,7 @@ class Program
 
         Console.Write("Inserisci una data per sapere che eventi ci saranno (gg/mm/yyyy): ");
         DateTime dateForSearch;
-        while (!DateTime.TryParse(Console.ReadLine(), out dateForSearch))
+        while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", new CultureInfo("it-IT"), DateTimeStyles.None, out dateForSearch))
         {
             Console.Write("\nData non valida. Inserisci di nuovo (formato: gg/mm/yyyy): ");
         }

@@ -127,7 +127,7 @@ namespace GestoreEventi
 
         public override string ToString()
         {
-			return $"{date:dd/MM/yyyy} - {title}";
+			return $"{date.ToString("dd/MM/yyyy")} - {title}";
         }
     }
 }
