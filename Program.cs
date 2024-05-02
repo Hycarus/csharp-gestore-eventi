@@ -94,9 +94,8 @@ class Program
 
         Console.Write($"\nIl numero degli eventi nel programma è: \n{programmaEventi.HowManyEvents()}");
 
-        Console.WriteLine("\nEcco il tuo programma eventi: ");
-        ProgrammaEventi.ShowEventListByDate(programmaEventi.ShowEventsByDate(DateTime.MinValue));
-
+        Console.WriteLine($"\nEcco il tuo programma eventi: {programmaEventi.ShowProgramTitleAndEvents()}");
+        
         Console.Write("Inserisci una data per sapere che eventi ci saranno (gg/mm/yyyy): ");
         DateTime dateForSearch;
         while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", new CultureInfo("it-IT"), DateTimeStyles.None, out dateForSearch))
@@ -109,6 +108,9 @@ class Program
 
         programmaEventi.DeleteAllEvents();
         Console.WriteLine("\nTutti gli eventi sono stati eliminati");
+
+        Console.WriteLine("Premi un tasto per chiudere il programma");
+        Console.ReadLine();
     }
 }
 
